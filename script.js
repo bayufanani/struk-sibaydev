@@ -49,6 +49,25 @@ function draw() {
     })
 }
 
+async function share() {
+    const dataUrl = canvas.toDataURL();
+    const blob = await (await fetch(dataUrl)).blob();
+    const filesArray = [
+        new File(
+            [blob],
+            'struk.png',
+            {
+                type: blob.type,
+                lastModified: new Date().getTime()
+            }
+        )
+    ];
+    const shareData = {
+        files: filesArray,
+    };
+    navigator.share(shareData);
+}
+
 const wrapText = function (ctx, text, x, y, maxWidth, lineHeight) {
     // First, start by splitting all of our text into words, but splitting it into an array split by spaces
     let words = text.split(' ');
